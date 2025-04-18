@@ -5,6 +5,8 @@
 # It is recommended to run this script with root privileges for accurate results.
 # Usage: sudo ./health-check.sh
 
+# Source os-release file
+source /etc/os-release
 
 # ANSI color codes for output formatting
 RED='\033[0;31m'
@@ -288,6 +290,7 @@ check_uptime() {
 main() {
     echo -e "${GREEN}Linux Health Check - $(date)${NC}"
     echo -e "${GREEN}Hostname: $(hostname)${NC}"
+    echo -e "${GREEN}$NAME $VERSION${NC}"
     
     # Run all checks
     check_filesystem
