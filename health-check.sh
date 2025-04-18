@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Linux Health Check Script
 # This script checks various aspects of system health and reports warnings when thresholds are exceeded
+# It should work on Debian, and Red Hat based systems.
+# It is recommended to run this script with root privileges for accurate results.
+# Usage: sudo ./health-check.sh
+
 
 # ANSI color codes for output formatting
 RED='\033[0;31m'
