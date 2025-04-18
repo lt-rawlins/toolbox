@@ -44,7 +44,8 @@ check_filesystem() {
     print_header "File System Usage"
     
     # Check available space and inodes
-    df -h | grep -v "tmpfs\|devtmpfs\|snap\|udev" | awk 'NR==1 {next} {printf "%-25s %-8s %-s\n", $1, $5, $6}'
+    #df -h | grep -v "tmpfs\|devtmpfs\|snap\|udev" | awk 'NR==1 {next} {printf "%-25s %-8s %-s\n", $1, $5, $6}'
+    df -h | grep -v "tmpfs\|devtmpfs\|snap\|udev\|efivarfs" | awk 'NR==1 {next} {printf "Mount: %-25s Avail: %-s\n", $6, $5}'
     
     # Find file systems with less than 10% space remaining
     problem_fs=$(df -h | grep -v "tmpfs\|devtmpfs\|snap" | awk 'NR>1 && int($5) > 90 {print $6}')
