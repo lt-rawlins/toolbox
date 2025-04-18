@@ -84,7 +84,7 @@ check_system_load() {
     threshold=$(awk "BEGIN {print $cpu_cores * 0.8}")
     
     # Compare load average to threshold without bc
-    if awk -v load="$load_1min" -v thresh="$threshold" 'BEGIN {exit !(load > thresh)}'; then
+    if awk -v sys_load="$load_1min" -v thresh="$threshold" 'BEGIN {exit !(sys_load > thresh)}'; then
         print_warning "Load average exceeds 80% of CPU capacity (cores: $cpu_cores)"
     fi
     
