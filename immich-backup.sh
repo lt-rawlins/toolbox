@@ -8,7 +8,6 @@ COMPOSE_FILE="/boot/config/plugins/compose.manager/projects/immich/docker-compos
 SOURCE_VOLUME="/mnt/ftldrive/immich-database"
 SNAPSHOT_NAME="immich-database-daily-$(date +%Y%m%d-%H%M%S)"
 SNAPSHOT_PATH="/mnt/ftldrive/.snapshots/${SNAPSHOT_NAME}"
-MOUNT_POINT="/mnt/immich-database"
 BACKUP_DIR="/mnt/zpool/backups/immich-database"
 LOG_FILE="/mnt/zpool/backups/immich-backup-$(date +%Y%m%d).log"
 
@@ -60,19 +59,15 @@ btrfs subvolume snapshot -r "$SOURCE_VOLUME" "$SNAPSHOT_PATH" || handle_error "F
 log_message "Starting Docker containers"
 docker-compose -f "$COMPOSE_FILE" up -d || handle_error "Failed to start Docker containers"
 
-# Step 4: Create mount point and use it directly
-log_message "Setting up for backup from $SNAPSHOT_PATH"
-mkdir -p "$MOUNT_POINT" || handle_error "Failed to create mount point directory"
-
-# Step 5: Backup data using rsync - directly from snapshot (no mount needed)
+# Step 4: Backup data using rsync - directly from snapshot (no mount needed)
 log_message "Backing up data using rsync"
 mkdir -p "$BACKUP_DIR" || handle_error "Failed to create backup directory"
 rsync -avzAX --delete "$SNAPSHOT_PATH/" "$BACKUP_DIR/" || handle_error "Failed to rsync data"
 
-# Step 6: Cleanup - remove snapshot
+# Step 5: Cleanup - remove snapshot
 log_message "Removing snapshot"
 btrfs subvolume delete "$SNAPSHOT_PATH" || handle_error "Failed to remove snapshot"
 
-# Step 7: Finalize backup
+# Step 6: Finalize backup
 log_message "Backup completed successfully!"
 exit 0
