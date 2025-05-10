@@ -1,5 +1,14 @@
 # Toolbox
 
+## immich database backup
+
+If you aren't running immich on a btrfs file system then this script is just a paper weight... and a bad one at that.
+
+This is very specific to my home server. While I'm sure you can adapt it to your own needs, you'll want to carefully
+read the contents of the script and ensure you've updated the variables that contain paths.
+
+
+
 ## Health Check
 `health-check.sh`
 
