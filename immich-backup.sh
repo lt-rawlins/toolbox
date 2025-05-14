@@ -9,7 +9,8 @@ SOURCE_VOLUME="/mnt/ftldrive/immich-database"
 SNAPSHOT_NAME="immich-database-daily-$(date +%Y%m%d-%H%M%S)"
 SNAPSHOT_PATH="/mnt/ftldrive/.snapshots/${SNAPSHOT_NAME}"
 BACKUP_DIR="/mnt/zpool/backups/immich-database"
-LOG_FILE="/mnt/zpool/backups/immich-backup-$(date +%Y%m%d).log"
+LOG_FILE="/mnt/zpool/backups/logs/immich-backup-$(date +%Y%m%d).log"
+TARBALL_NAME="immich-database-backup-$(date +%Y%m%d-%H%M%S).tar.gz"
 
 # Function to log messages
 log_message() {
