@@ -122,6 +122,33 @@ check_processes_D_state() {
     fi
 }
 
+# Check for zombie processes
+check_zombie_processes() {
+    print_header "Zombie Processes"
+    
+    zombie_procs=$(ps -eo state,pid,cmd | grep "^Z" | wc -l)
+    
+    if [ "$zombie_procs" -gt 0 ]; then
+        print_warning "Found $zombie_procs zombie processes"
+        echo "Details of zombie processes:"
+        ps -eo state,pid,cmd | grep "^Z"
+    else
+        echo "No zombie processes found"
+    fi
+}
+
+# Check top processes
+check_top_processes() {
+    print_header "Top 5 Processes by CPU and Memory Usage"
+    
+    echo "Top 5 CPU consumers:"
+    ps -eo pcpu,pid,user,args --sort=-pcpu | head -n 6
+    
+    echo ""
+    echo "Top 5 Memory consumers:"
+    ps -eo pmem,pid,user,args --sort=-pmem | head -n 6
+}
+
 # Check SELinux status
 check_selinux() {
     print_header "SELinux Status"
@@ -297,6 +324,8 @@ main() {
     check_filesystem
     check_system_load
     check_processes_D_state
+    check_zombie_processes
+    check_top_processes
     check_selinux
     check_firewall
     check_updates
